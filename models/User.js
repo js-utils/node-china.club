@@ -9,9 +9,6 @@ function User(){
 
 User.login = function(githubUser, fn){
     RedisSession.save(githubUser, function(err){
-        if (err) throw err;
-        RedisSession.getSessionByName(githubUser.name, function(err, session){
-            fn(err, session);
-        })
+        fn(err, githubUser);
     });
 }
