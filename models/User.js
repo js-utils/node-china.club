@@ -1,4 +1,3 @@
-var bcrypt = require('bcrypt');
 var RedisSession = require('../lib/redis/session');
 
 module.exports = User;

@@ -1,3 +1,4 @@
+var config = require('./config');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -22,7 +23,8 @@ app.set('view engine', 'ejs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(cookieSession({
-  keys: ['node-china.club', 'secret2']
+  name: config.session.name,
+  keys: config.session.keys
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

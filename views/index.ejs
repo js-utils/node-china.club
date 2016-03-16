@@ -12,7 +12,7 @@
       <a href="/github/logout">Click here</a> logout.
     <% } else { %>
       <p>not login</p>
-      <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id=<%= github_client_id %>">Click here</a> to login!</a>
+      <a href="<%= authVisitUrl %>">Click here</a> to login!</a>
     <% } %>
 
   </body>

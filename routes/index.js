@@ -1,11 +1,14 @@
+var githubConfig = require('../lib/github/config');
 var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  console.log(req.session.uid);
+  console.log(req.session);
   res.render('index', {
     title: 'Express',
-    github_client_id: '1c12b4a1306f5348dd81'
+    authVisitUrl: githubConfig.authVisitUrl
   });
 });
 
