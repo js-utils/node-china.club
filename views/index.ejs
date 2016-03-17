@@ -1,3 +1,4 @@
+<% include header.ejs %>
 <% if (locals.user){ %>
   <p>welcome you: <%= user.name %> </p>
   <p>email: <%= user.email %></p>
@@ -6,4 +7,7 @@
   <p>not login</p>
   <a href="<%= authVisitUrl %>">Click here</a> to login!</a>
 <% } %>
+
+<% include footer.ejs %>
+
 
