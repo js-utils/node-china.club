@@ -1,8 +1,65 @@
 <% include ../header.ejs %>
 
+<style>
+    .item{
+        height: 70px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-left: 15px;
+        border-bottom: 1px solid #e1e1e1;
+    }
+    .item > .header{
+        display: inline-block;
+        float: left;
+        width: 50px;
+        height: 50px;
+        background-color: red;
+        margin-right: 5px;
+    }
+    .item > .content{
+        overflow: hidden;
+    }
+    .item > .content > .title{
+        font-size: 17px;
+    }
+    .item > .content > .detail{
+        margin-top: 5px;
+        font-size: 14px;
+    }
+</style>
+
 <div class="container">
     <div class="row">
-        <div class="col-md-9">888</div>
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="position: relative">
+                    &nbsp;
+                    <div style="display: inline-block; position: absolute; right: 10px">
+                        查看:
+                        <span>默认</span>
+                        <span>优质帖子</span>
+                        <span>最新创建</span>
+                    </div>
+                </div>
+                <div class="panel-body" style="padding: 0">
+                    <div class="item">
+                        <img src="" alt="" class="header">
+                        <div class="content">
+                            <a href="" class="title">Ruby China的RubyGems镜像上线</a>
+                            <div class="detail">
+                                <span>公告</span><span>•wangsen</span><span>•最后由senwang与22小时前回复</span>
+                            </div>
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-3">444</div>
     </div>
 </div>
