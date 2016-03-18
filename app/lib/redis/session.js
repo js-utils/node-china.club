@@ -5,7 +5,7 @@ var db = redis.createClient();
 function RedisSession(user){
     return {
         //redis_id: user.redis_id,
-        name: user.name,
+        name: user.login,
         email: user.email,
         avatar_url: user.avatar_url
     }
