@@ -35,6 +35,7 @@ app.use(user);
 app.use('/', routes);
 app.use('/github', github);
 app.use('/users', users);
+app.use('/posts', require('./routes/posts'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
