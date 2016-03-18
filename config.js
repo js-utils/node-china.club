@@ -5,11 +5,6 @@ var config = {
     // 程序运行的端口
     port: 3000,
 
-    session: {
-        name: 'session', //客户端cookie中显示字段名称
-        keys: ['node-china.club']
-    },
-
     // mongodb 配置
     db: 'mongodb://127.0.0.1/node_club_dev',
 
@@ -17,6 +12,11 @@ var config = {
     redis: {
         host: '127.0.0.1',
         port: 6379
+    },
+
+    session: {
+        name: 'session', //客户端cookie中显示字段名称
+        keys: ['node-china.club']
     },
 
     // 邮箱配置

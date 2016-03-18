@@ -1,3 +1,5 @@
 .idea
+npm-debug.log
 dump.rdb
 node_modules
+bower_components
