@@ -13,12 +13,12 @@
     <div class="navbar-header">
         <a href="/" class="navbar-brand">node-china</a>
     </div>
-    <ul class="nav navbar-nav navbar-left">
+    <ul class="nav navbar-nav navbar-left hidden-xs">
         <li id="nav-posts"><a href="/posts">文章列表</a></li>
         <li id="nav-starter"><a href="#">新手入门</a></li>
         <li id="nav-npms"><a href="#">Npms</a></li>
     </ul>
-    <ul class="nav navbar-nav navbar-right" style="margin-right: 15px">
+    <ul class="nav navbar-nav navbar-right hidden-xs" style="margin-right: 15px">
         <% if(!locals.user) { %>
             <li><a href="<%= authVisitUrl %>">登陆</a></li>
         <% } else { %>

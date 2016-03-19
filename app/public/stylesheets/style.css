@@ -8,3 +8,28 @@ nav.c-header{
   color: #A1C3EE;
 }
 
+.post_outline_item{
+  height: 70px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 15px;
+  border-bottom: 1px solid #e1e1e1;
+}
+.post_outline_item > .header{
+  display: inline-block;
+  float: left;
+  width: 50px;
+  height: 50px;
+  background-color: red;
+  margin-right: 5px;
+}
+.post_outline_item > .content{
+  overflow: hidden;
+}
+.post_outline_item > .content > .title{
+  font-size: 17px;
+}
+.post_outline_item > .content > .detail{
+  margin-top: 5px;
+  font-size: 14px;
+}
