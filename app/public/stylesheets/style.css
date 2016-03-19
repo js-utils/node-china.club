@@ -24,8 +24,14 @@ nav.c-header{
   margin-right: 5px;
 }
 .post_outline_item > .content{
+  position: relative;
+  height: 100%;
   overflow: hidden;
 }
+.post_outline_item .content .post-badge{
+  position: absolute; right: 15px;top: 0; line-height: 50px;
+}
+
 .post_outline_item > .content > .title{
   font-size: 17px;
 }
