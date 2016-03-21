@@ -1,4 +1,5 @@
 var config = require('../config');
+var githubConfig = require('./lib/github/config');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -31,6 +32,11 @@ app.use(cookieSession({
   name: config.session.name,
   keys: config.session.keys
 }));
+// before route set
+app.use(function(req, res, next) {
+  res.locals.authVisitUrl = githubConfig.authVisitUrl;
+  next();
+});
 app.use(user);
 app.use('/', routes);
 app.use('/github', github);
