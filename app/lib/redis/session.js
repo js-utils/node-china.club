@@ -3,11 +3,13 @@ var db = redis.createClient();
 
 // 简化存到redis用户信息
 function RedisSession(user){
+    console.log(user.mongoId);
     return {
         //redis_id: user.redis_id,
         name: user.login,
         email: user.email,
-        avatar_url: user.avatar_url
+        avatar_url: user.avatar_url,
+        mongo_id: user.mongoId
     }
 }
 
