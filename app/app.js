@@ -76,3 +76,13 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+
+// 启动mongo
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/nodeChina', function(err){
+  if (err) {
+    console.log(err.message);
+  }else {
+    console.info('link MongoDB success!!!');
+  }
+});
