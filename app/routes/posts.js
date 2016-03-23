@@ -8,4 +8,10 @@ router.get('/', function(req, res, next) {
     })
 });
 
+router.get('/new', function(req, res, next){
+   res.render('posts/new', {
+       title: '新增话题'
+   })
+});
+
 module.exports = router;
