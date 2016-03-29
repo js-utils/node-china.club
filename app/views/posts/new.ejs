@@ -14,7 +14,7 @@
             <div class="form-group">
                 <div style="width: 150px; display: inline-block; float: left">
                     <!--话题分类-->
-                    <select class="select2 select2-container select2-container--bootstrap select2-hidden-accessible" style="width: 150px;" tabindex="-1" aria-hidden="true">
+                    <select id="choiceCategory" class="select2-container select2-container--bootstrap select2-hidden-accessible" style="width: 150px;" tabindex="-1" aria-hidden="true">
                         <option></option>
                         <% subjects.forEach(function(subject){ %>
                             <optgroup label="<%= subject["group"] %>">
@@ -28,17 +28,28 @@
                 </div>
                 <!--标题-->
                 <div style="margin-left: 112px; overflow: hidden">
-                    <input type="text" class="form-control" placeholder="标题">
+                    <input id="title-input" type="text" class="form-control" placeholder="标题">
                 </div>
             </div>
-            <!--内容group-->
+            <!--tags-->
             <div class="form-group">
+                <select id="choiceTags" class="select2-container select2-container--bootstrap select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                    <option></option>
+                </select>
+            </div>
+            <!--内容group-->
+            <div class="form-group" style="overflow: hidden">
                 <div class="col-sm-5" style="padding-left: 0">
                      <textarea id="text-input" rows="20" cols="40" class="form-control" placeholder="请输入markdown格式"></textarea>
                 </div>
                 <div class="col-sm-7">
                     <div id="preview"></div>
                 </div>
+            </div>
+            <!--操作按钮-->
+            <hr />
+            <div class="form-group">
+                <button id="uploadPost" class="btn btn-primary">提交</button>
             </div>
         </div>
     </div>
@@ -50,22 +61,96 @@
         $('#nav-posts').addClass('active');
 
         $('#text-input').on('input', function(){
-            console.log(11);
             document.getElementById('preview').innerHTML = marked($(this).val());
+        });
+
+
+        var categoryKey = "";
+        $( "#choiceCategory" ).select2( {
+            theme: "bootstrap",
+            placeholder: "选择话题",
+            maximumSelectionSize: 6,
+            // 控制显示
+            templateResult: function(data){
+                return data.text;
+            },
+            // 选取到某个值
+            templateSelection: function(data){
+                $('#choiceTags').children().remove();
+                $('#choiceTags').val(null).trigger("change");
+                if (data.id && categoryKey != data.id){
+                    categoryKey = data.id;
+                    $.ajax({
+                        type: "GET",
+                        url: "/posts/api/category/tags",
+                        data: {category_key: data.id},
+                        success: function(tags){
+                            var str = '<option></option>'
+                            tags.forEach(function(tag){
+                                str += "<option value='" + tag +  "'>" + tag + "</option>"
+                            });
+                            $('#choiceTags').append(str);
+                        },
+                        error: function(){
+//                    alert('获取tags失败,请重新选择话题');
+                        }
+                    });
+                }
+                return data.text;
+            }
+        } );
+        var tagObj = {};
+        var willReset = false;
+        $( "#choiceTags" ).select2( {
+            theme: "bootstrap",
+            placeholder: "输入tags",
+            maximumSelectionLength: 5, //最多能够选择的个数
+            tags: true, //是否可以自定义tag
+            multiple: true, // 支持多选
+//        data: [{id: 0, text: 'story'},{id: 1, text: 'bug'},{id: 2, text: 'task'}] //自定义data
+            sorter: function(data){
+                willReset = true;
+                return data;
+            },
+            templateSelection: function(data){
+                if (willReset){
+                    willReset = false;
+                    tagObj = {};
+                }
+                if (data["id"]){
+                    tagObj[data["id"]] = data["id"];
+                }
+                return data.text;
+            }
+        });
+
+        $('#uploadPost').on('click', function uploadPost(){
+//            $(this).css('backgroundColor', 'gray');
+            var category = categoryKey;
+            var title = $('#title-input').val();
+            var markdown = $('#text-input').val();
+            if (!category) return alert('请选择话题');
+            else if (!title) return alert('请输入标题');
+            else if (!markdown) return alert('话题内容不能为空');
+            var data = {
+                category: category,
+                title: title,
+                tags: [],
+                markdown: markdown
+            }
+            for (var tag in tagObj) data.tags.push(tag);
+            $.ajax({
+                type: "POST",
+                url: "/posts/api/new",
+                data: data,
+                success: function(data){
+                    console.log(data);
+                },
+                error: function(data){
+                    console.log(data);
+                }
+            });
         })
+
     });
-
-
-
-    $( ".select2" ).select2( {
-        theme: "bootstrap",
-        placeholder: "选择话题",
-        maximumSelectionSize: 6
-    } );
-    $( ":checkbox" ).on( "click", function() {
-        $( this ).parent().nextAll( "select" ).prop( "disabled", !this.checked );
-    });
-
-
-
 </script>

@@ -16,6 +16,22 @@ SubjectSchema.statics.getAll = function(cb){
   });
 };
 
+SubjectSchema.statics.getTagsWithCategoryKey = function(categoryKey, cb){
+    this.findOne({'categories.key': categoryKey}, function(err, data){
+        if (err){
+            return cb(err);
+        }
+        var tags = [];
+        data.categories.forEach(function(category){
+            if (category.key == categoryKey){
+                tags = category.tags;
+                return false;
+            }
+        });
+        cb(null, tags);
+    });
+}
+
 SubjectSchema.statics.initData = function(){
     var data = [{
         group: '后台开发',
