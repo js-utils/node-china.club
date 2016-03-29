@@ -8,6 +8,9 @@ var UserSchema = new mongoose.Schema({
 // 类方法用 UserModel调用
 // var UserModel = mongoose.model('User', UserSchema);
 
+UserSchema.statics.findById = function(_id,cb){
+    this.findOne({_id: _id}, cb);
+};
 UserSchema.statics.findByUsername = function(username,cb){
     this.findOne({username: username}, cb);
 };

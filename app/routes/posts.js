@@ -28,10 +28,10 @@ router.get('/new', function(req, res, next){
 
 router.get('/show/:id', function(req, res, next){
     var _id = req.params.id;
-    Post.findById(_id, function(err, post){
+    Post.findById(_id, function(err, data){
        res.render('posts/show', {
            title: '话题详情',
-           post: post
+           data: data
        })
     });
 });
@@ -49,6 +49,7 @@ router.get('/api/category/tags', function(req, res, next){
 // post 添加数据
 router.post('/api/new', function(req, res, next){
     var post = req.body;
+    console.log(req.body);
     post.userId = res.locals.user.mongo_id;
     Post.insertPost(post, function(err, post){
         if (err) return next(err);

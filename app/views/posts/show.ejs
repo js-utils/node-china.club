@@ -4,9 +4,21 @@
     <!--左边栏-->
     <div class="col-sm-8 col-md-9">
         <div class="panel panel-default">
-            <div class="panel-heading"><%= post.title %></div>
+            <div class="panel-heading">
+                <div>
+                    <div>
+                        <span style="font-size: 25px; font-weight: bold"><%= data.post.title %></span>
+                        <span style="color: lightsalmon;margin-left: 10px"><%= data.post.tags && data.post.tags.join(', ') %></span>
+                    </div>
+                    <div>
+                        <span style="font-size: 12px; color: gray">
+                            创建者: <%= data.author.username %>
+                        </span>
+                    </div>
+                </div>
+            </div>
             <div class="panel-body">
-                <div id="markdown"><%= post.markdown %></div>
+                <div id="markdown"><%= data.post.markdown %></div>
             </div>
         </div>
     </div>
