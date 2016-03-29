@@ -84,5 +84,9 @@ mongoose.connect('mongodb://localhost/nodeChina', function(err){
     console.log(err.message);
   }else {
     console.info('link MongoDB success!!!');
+
+    var Subject = require('./models/subject.js');
+    console.log(Subject.initData());
+
   }
 });

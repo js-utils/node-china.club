@@ -16,28 +16,14 @@
                     <!--话题分类-->
                     <select class="select2 select2-container select2-container--bootstrap select2-hidden-accessible" style="width: 150px;" tabindex="-1" aria-hidden="true">
                         <option></option>
-                        <optgroup label="后台">
-                            <option value="node">Node.js</option>
-                            <option value="meteor">Meteor</option>
-                            <option value="ruby">Ruby</option>
-                            <option value="rails">Rails</option>
-                            <!--<option value="HI" disabled="disabled">Hawaii</option>-->
-                        </optgroup>
-                        <optgroup label="移动原生">
-                            <option value="ios">iOS</option>
-                            <option value="android">Android</option>
-                        </optgroup>
-                        <optgroup label="前端">
-                            <option value="javascript">JavaScript</option>
-                            <option value="html">Html</option>
-                            <option value="css">Css</option>
-                            <option value="jquery">Jquery</option>
-                            <option value="angularjs">AngularJS</option>
-                            <option value="react">React</option>
-                        </optgroup>
-                        <optgroup label="跨平台">
-                            <option value="reactNative">ReactNative</option>
-                        </optgroup>
+                        <% subjects.forEach(function(subject){ %>
+                            <optgroup label="<%= subject["group"] %>">
+                                <% subject["categories"].forEach(function(category){ %>
+                                    <option value="<%= category["key"] %>"><%= category["value"] %></option>
+                                <% }) %>
+                                <!--<option value="HI" disabled="disabled">Hawaii</option>&ndash;&gt;&ndash;&gt;-->
+                            </optgroup>
+                        <% }) %>
                     </select>
                 </div>
                 <!--标题-->
