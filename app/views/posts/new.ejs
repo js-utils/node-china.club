@@ -124,8 +124,8 @@
             }
         });
 
-        $('#uploadPost').on('click', function uploadPost(){
-//            $(this).css('backgroundColor', 'gray');
+        $('#uploadPost').one('click', function uploadPost(){
+            $(this).css('backgroundColor', 'gray');
             var category = categoryKey;
             var title = $('#title-input').val();
             var markdown = $('#text-input').val();
@@ -145,9 +145,10 @@
                 data: data,
                 success: function(data){
                     console.log(data);
+                    location.href = '/posts/show/' + data;
                 },
-                error: function(data){
-                    console.log(data);
+                error: function(){
+                    $('#uploadPost').one('click', uploadPost);
                 }
             });
         })

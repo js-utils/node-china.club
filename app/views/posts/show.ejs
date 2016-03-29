@@ -1,0 +1,25 @@
+<% include ../header.ejs %>
+<script src="/marked/lib/marked.js"></script>
+<div class="container">
+    <!--左边栏-->
+    <div class="col-sm-8 col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading"><%= post.title %></div>
+            <div class="panel-body">
+                <div id="markdown"><%= post.markdown %></div>
+            </div>
+        </div>
+    </div>
+    <!--右边栏-->
+    <div class="col-sm-4 col-md-3">
+
+    </div>
+</div>
+
+<% include ../footer.ejs %>
+<script>
+    $(function(){
+        $('#nav-posts').addClass('active');
+        document.getElementById('markdown').innerHTML = marked(document.getElementById('markdown').innerText);
+    });
+</script>

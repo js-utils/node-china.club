@@ -25,6 +25,17 @@ router.get('/new', function(req, res, next){
         })
     });
 });
+
+router.get('/show/:id', function(req, res, next){
+    var _id = req.params.id;
+    Post.findById(_id, function(err, post){
+       res.render('posts/show', {
+           title: '话题详情',
+           post: post
+       })
+    });
+});
+
 // api
 router.get('/api/category/tags', function(req, res, next){
     var categoryKey = req.query.category_key;
@@ -39,11 +50,11 @@ router.get('/api/category/tags', function(req, res, next){
 router.post('/api/new', function(req, res, next){
     var post = req.body;
     post.userId = res.locals.user.mongo_id;
-    Post.insertPost(post, function(err){
+    Post.insertPost(post, function(err, post){
         if (err) return next(err);
         res.setHeader('Content-Type', 'text/plain');
         res.writeHead(200);
-        res.end('success');
+        res.end(post._id.toString());
     });
 
 });

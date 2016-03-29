@@ -14,6 +14,11 @@ postSchema.statics.insertPost = function(post, cb){
         return cb(err, data);
     });
 };
+postSchema.statics.findById = function(_id, cb){
+    this.findOne(_id, function(err, data){
+        cb(err, data);
+    });
+}
 
 var postModel = mongoose.model('Post', postSchema);
 module.exports = postModel;
