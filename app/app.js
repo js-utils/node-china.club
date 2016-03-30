@@ -79,7 +79,7 @@ module.exports = app;
 
 // 启动mongo
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/nodeChina', function(err){
+mongoose.connect(config.db, function(err){
   if (err) {
     console.log(err.message);
   }else {
