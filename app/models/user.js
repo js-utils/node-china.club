@@ -2,7 +2,10 @@ var RedisSession = require('../lib/redis/session');
 var mongoose = require('mongoose');
 var UserSchema = new mongoose.Schema({
     username: String,
+    role: {type: String, default: "common"},
     githubInfo: Object
+},{ // 这里会自动创建updatedAt(更新文档自动更新该字段)和createdAt(创建文档时更新该字段) (如果需要自定义字段: { timestamps: { createdAt: 'created_at' } })
+    timestamps: true
 });
 
 // 类方法用 UserModel调用

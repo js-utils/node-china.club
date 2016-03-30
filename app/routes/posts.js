@@ -4,6 +4,7 @@ var Subject = require('../models/subject');
 var Post = require('../models/post');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+
     res.render('posts', {
         title: '文章列表'
     })

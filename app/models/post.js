@@ -7,6 +7,8 @@ var postSchema = new mongoose.Schema({
     tags: [String],
     markdown: String,
     voters: [String]
+},{
+    timestamps: true
 });
 
 postSchema.statics.insertPost = function(post, cb){

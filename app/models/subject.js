@@ -5,9 +5,9 @@ var SubjectSchema = new mongoose.Schema({
         key: String,   //比如: node meteor rails
         value: String, //比如: Node.js Meteor Rails ...
         tags: [String]    // 比如: express gulp koa ...
-    }],
-    updateAt: {type: Date, default: Date.now},
-    createAt: {type: Date, default: Date.now}
+    }]
+},{
+    timestamps: true
 });
 
 SubjectSchema.statics.getAll = function(cb){
