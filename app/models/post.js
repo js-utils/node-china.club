@@ -6,10 +6,15 @@ var postSchema = new mongoose.Schema({
     category: String,
     tags: [String],
     markdown: String,
-    voters: [String]
+    voters: [{type: String, unique: true, default: []}],
+    voterCount: {type: String, default: 0}
 },{
     timestamps: true
 });
+postSchema.pre('save', function(next) {
+    this.voterCount = this.voters.length;
+});
+
 
 postSchema.statics.insertPost = function(post, cb){
     var postEntity = new postModel({userId: post.userId, title: post.title, category: post.category, tags: post["tags[]"], markdown: post.markdown});
@@ -17,6 +22,15 @@ postSchema.statics.insertPost = function(post, cb){
         return cb(err, data);
     });
 };
+
+postSchema.statics.findPosts = function(pageNumber, limit, searchText, cb){
+    pageNumber = pageNumber || 1;
+    limit = limit || 20;
+    this.find({}, {voters: 0}, {skip: limit*(pageNumber-1), limit: limit, sort:{ createdAt: -1}}, function(err, posts){
+        cb(err, posts);
+    })
+};
+
 postSchema.statics.findById = function(_id, cb){
     this.findOne({_id: _id}, function(err, post){
         if (err) return cb(err);

@@ -43,30 +43,33 @@
                     </div>
                 </div>
                 <div class="panel-body" style="padding: 0">
-                    <div class="post_outline_item">
-                        <img src="" alt="" class="header">
-                        <div class="content">
-                            <a href="" class="title">node.js官方npm镜像</a>
-                            <div class="detail">
-                                <span>公告</span><span>•wangsen</span><span>•最后由senwang与22小时前回复</span>
-                            </div>
-                            <div class="post-badge">
-                                <a href="#"><span class="badge">88</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post_outline_item">
-                        <img src="" alt="" class="header">
-                        <div class="content">
-                            <a href="" class="title">node.js官方npm镜像</a>
-                            <div class="detail">
-                                <span>公告</span><span>•wangsen</span><span>•最后由senwang与22小时前回复</span>
-                            </div>
-                            <div class="post-badge">
-                                <a href="#"><span class="badge">88</span></a>
+                    <% posts.forEach(function(post){ %>
+                        <div class="post_outline_item">
+                            <img src="" alt="" class="header">
+                            <div class="content">
+                                <a href="/posts/show/<%= post._id %>" class="title"><%= post.title %></a>
+                                <div class="detail">
+                                    <span><%= post.category + ': ' %></span>
+                                    <span style="color: lightsalmon;"><%= post.tags && post.tags.join(', ') %></span>
+                                </div>
+                                <div class="post-badge">
+                                    <a href="#"><span class="badge"><%= post.voterCount %></span></a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <% }) %>
+                    <!--<div class="post_outline_item">-->
+                        <!--<img src="" alt="" class="header">-->
+                        <!--<div class="content">-->
+                            <!--<a href="" class="title">node.js官方npm镜像</a>-->
+                            <!--<div class="detail">-->
+                                <!--<span>公告</span><span>•wangsen</span><span>•最后由senwang与22小时前回复</span>-->
+                            <!--</div>-->
+                            <!--<div class="post-badge">-->
+                                <!--<a href="#"><span class="badge">88</span></a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
             </div>
         </div>
