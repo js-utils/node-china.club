@@ -7,24 +7,39 @@
             <div class="panel-heading">
                 <div>
                     <div>
-                        <span style="font-size: 25px; font-weight: bold"><%= data.post.title %></span>
-                        <span style="color: lightsalmon;margin-left: 10px"><%= data.post.tags && data.post.tags.join(', ') %></span>
+                        <span style="font-size: 30px; font-weight: bold"><%= data.post.title %></span>
                     </div>
                     <div>
-                        <span style="font-size: 12px; color: gray">
-                            创建者: <%= data.author.username %>
-                        </span>
+                        <span style="color: lightsalmon;"><%= data.post.tags && data.post.tags.join(', ') %></span>
                     </div>
                 </div>
             </div>
             <div class="panel-body">
-                <div id="markdown"><%= data.post.markdown %></div>
+                <div id="markdown">
+                    <textarea id="markdownText" hidden><%= data.post.markdown %></textarea>
+                </div>
             </div>
         </div>
     </div>
     <!--右边栏-->
     <div class="col-sm-4 col-md-3">
-
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">文章信息</div>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <h5 class="list-group-item-heading">author: </h5>
+                        <p class="list-group-item-text"><%= data.author.username %></p>
+                    </li>
+                    <li class="list-group-item">
+                        <h5 class="list-group-item-heading">email: </h5>
+                        <p class="list-group-item-text"><%= data.author.email %></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -32,6 +47,6 @@
 <script>
     $(function(){
         $('#nav-posts').addClass('active');
-        document.getElementById('markdown').innerHTML = marked(document.getElementById('markdown').innerText);
+        document.getElementById('markdown').innerHTML = marked(document.getElementById('markdownText').value);
     });
 </script>
