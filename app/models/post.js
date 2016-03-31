@@ -31,8 +31,6 @@ postSchema.statics.findPosts = function(pageNumber, limit, searchText, cb){
     this.find({}, {voters: 0}, {skip: limit*(pageNumber-1), limit: limit, sort:{ createdAt: -1}})
         .populate('author')
         .exec(function(err, posts){
-            console.log('=====');
-            console.log(posts);
             cb(err, posts);
     })
 };
