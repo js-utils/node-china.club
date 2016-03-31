@@ -8,6 +8,12 @@ var config = {
         "oauth_method": "POST"
     }
 };
+
+if (process.env.NODE_ENV != 'production'){
+    config["oauth_client_id"] = "9892ac0590408f2767dc"
+    config["oauth_client_secret"] = "e5324ef4d6ca159373bb7fdfb0f23aaab194ef81"
+}
+
 config.authVisitUrl = "https://github.com/login/oauth/authorize?scope=user:email&client_id=" + config.oauth_client_id;
 
 module.exports = config;
