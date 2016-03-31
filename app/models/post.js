@@ -13,6 +13,7 @@ var postSchema = new mongoose.Schema({
 });
 postSchema.pre('save', function(next) {
     this.voterCount = this.voters.length;
+    next();
 });
 
 
