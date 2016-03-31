@@ -1,4 +1,7 @@
 var config = {
+
+    env: 'production', //当前运行环境
+
     port: 8899,
 
     // debug 为 true 时，用于本地调试

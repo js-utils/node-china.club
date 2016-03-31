@@ -52,6 +52,8 @@ app.use(function(req, res, next) {
 
 // error handlers
 
+app.set("env" , config.env);
+
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
@@ -87,10 +89,6 @@ mongoose.connect(config.db, function(err){
 
     var Subject = require('./models/subject.js');
     console.log(Subject.initData());
-
-
-    console.log(process.env.NODE_ENV );
-    console.log(process.env.PORT );
 
   }
 });

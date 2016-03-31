@@ -4,6 +4,9 @@ if (process.env.NODE_ENV == 'production'){
 }
 
 var config = {
+
+    env: 'development', //当前运行环境
+
     port: 3000,
 
     // debug 为 true 时，用于本地调试
