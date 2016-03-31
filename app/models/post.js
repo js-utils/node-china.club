@@ -1,7 +1,8 @@
 var User = require('./user');
 var mongoose = require('mongoose');
+var Schema   = mongoose.Schema;
 var postSchema = new mongoose.Schema({
-    userId: String,
+    author: { type: Schema.Types.ObjectId, ref: 'User' },
     title: String,
     category: String,
     tags: [String],
@@ -18,7 +19,7 @@ postSchema.pre('save', function(next) {
 
 
 postSchema.statics.insertPost = function(post, cb){
-    var postEntity = new postModel({userId: post.userId, title: post.title, category: post.category, tags: post["tags[]"], markdown: post.markdown});
+    var postEntity = new postModel({author: post.userId, title: post.title, category: post.category, tags: post["tags[]"], markdown: post.markdown});
     postEntity.save(function(err, data){
         return cb(err, data);
     });
@@ -27,19 +28,20 @@ postSchema.statics.insertPost = function(post, cb){
 postSchema.statics.findPosts = function(pageNumber, limit, searchText, cb){
     pageNumber = pageNumber || 1;
     limit = limit || 20;
-    this.find({}, {voters: 0}, {skip: limit*(pageNumber-1), limit: limit, sort:{ createdAt: -1}}, function(err, posts){
-        cb(err, posts);
+    this.find({}, {voters: 0}, {skip: limit*(pageNumber-1), limit: limit, sort:{ createdAt: -1}})
+        .populate('author')
+        .exec(function(err, posts){
+            console.log('=====');
+            console.log(posts);
+            cb(err, posts);
     })
 };
 
 postSchema.statics.findById = function(_id, cb){
-    this.findOne({_id: _id}, function(err, post){
-        if (err) return cb(err);
-        User.findById({_id: post.userId}, function(err, author){
-            cb(err, {post: post, author: {username: author.username, email: author.githubInfo.email}});
-        });
+    this.findOne({_id: _id}).populate('author').exec(function(err, post){
+        cb(err, post);
     });
-}
+};
 
 var postModel = mongoose.model('Post', postSchema);
 module.exports = postModel;

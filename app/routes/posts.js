@@ -33,10 +33,10 @@ router.get('/new', function(req, res, next){
 
 router.get('/show/:id', function(req, res, next){
     var _id = req.params.id;
-    Post.findById(_id, function(err, data){
+    Post.findById(_id, function(err, post){
        res.render('posts/show', {
            title: '话题详情',
-           data: data
+           post: post
        })
     });
 });
