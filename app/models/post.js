@@ -28,9 +28,7 @@ postSchema.statics.insertPost = function(post, cb){
 postSchema.statics.findPosts = function(pageNumber, limit, searchText, cb){
     pageNumber = pageNumber || 1;
     limit = limit || 20;
-    this.find({}, {voters: 0}, {skip: limit*(pageNumber-1), limit: limit, sort:{ createdAt: -1}})
-        .populate('author')
-        .exec(function(err, posts){
+    this.find({}, {voters: 0}, {skip: limit*(pageNumber-1), limit: limit, sort:{ createdAt: -1}}).populate('author').exec(function(err, posts){
             cb(err, posts);
     })
 };
