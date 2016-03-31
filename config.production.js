@@ -1,13 +1,8 @@
-if (process.env.NODE_ENV == 'production'){
-    module.exports = require('./config.production');
-    return ;
-}
-
 var config = {
-    port: 3000,
+    port: 8899,
 
     // debug 为 true 时，用于本地调试
-    debug: true,
+    debug: false,
 
     // mongodb 配置
     db: 'mongodb://localhost/nodeChina',

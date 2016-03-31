@@ -88,5 +88,9 @@ mongoose.connect(config.db, function(err){
     var Subject = require('./models/subject.js');
     console.log(Subject.initData());
 
+
+    console.log(process.env.NODE_ENV );
+    console.log(process.env.PORT );
+
   }
 });
