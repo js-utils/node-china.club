@@ -1,4 +1,5 @@
 var config = require('../config');
+var Model = require('./models');
 var githubConfig = require('./lib/github/config');
 var express = require('express');
 var path = require('path');
@@ -79,16 +80,4 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-// 启动mongo
-var mongoose = require('mongoose');
-mongoose.connect(config.db, function(err){
-  if (err) {
-    console.log(err.message);
-  }else {
-    console.info('link MongoDB success!!!');
 
-    var Subject = require('./models/subject.js');
-    console.log(Subject.initData());
-
-  }
-});

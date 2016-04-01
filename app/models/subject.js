@@ -109,7 +109,6 @@ SubjectSchema.statics.initData = function(){
     }
 };
 
-
 var SubjectModel = mongoose.model('Subject', SubjectSchema);
 module.exports = SubjectModel;
 
