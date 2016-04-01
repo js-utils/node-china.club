@@ -2,7 +2,7 @@
 <script src="/marked/lib/marked.js"></script>
 <div class="container">
     <!--左边栏-->
-    <div class="col-sm-8 col-md-9">
+    <div class="col-sm-12 col-md-9">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div>
@@ -23,24 +23,31 @@
         </div>
     </div>
     <!--右边栏-->
-    <div class="col-sm-4 col-md-3">
+    <div class="hidden-sm hidden-xs col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item active">作者信息</li>
+            <li class="list-group-item">
+                <div class="list-group-heading">作者</div>
+                <div class="list-group-text"><%= post.author.username %></div>
+            </li>
+            <li class="list-group-item">
+                <div class="list-group-heading">邮箱</div>
+                <div class="list-group-text"><%= post.author.githubInfo.email %></div>
+            </li>
+        </ul>
+        <% if (locals.user && post.author._id.toString() == locals.user.mongo_id){ %>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <div class="panel-title">文章信息</div>
+                <div class="panel-title">操作</div>
             </div>
             <div class="panel-body">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <h5 class="list-group-item-heading">author: </h5>
-                        <p class="list-group-item-text"><%= post.author.username %></p>
-                    </li>
-                    <li class="list-group-item">
-                        <h5 class="list-group-item-heading">email: </h5>
-                        <p class="list-group-item-text"><%= post.author.githubInfo.email %></p>
-                    </li>
-                </ul>
+                <div class="text-center">
+                    <button id="edit-post" class="btn btn-primary">编辑</button>
+                    <button id="delete-post" class="btn btn-danger">删除</button>
+                </div>
             </div>
         </div>
+        <% } %>
     </div>
 </div>
 
