@@ -50,11 +50,15 @@
         <% } %>
     </div>
 </div>
-
 <% include ../footer.ejs %>
+
+<link rel="stylesheet" href="/highlight/src/styles/qtcreator_dark.css">
+<script src="/javascripts/highlight.pack.js"></script>
 <script>
     $(function(){
         $('#nav-posts').addClass('active');
+
         document.getElementById('markdown').innerHTML = marked(document.getElementById('markdownText').value);
+        hljs.initHighlightingOnLoad();
     });
 </script>
