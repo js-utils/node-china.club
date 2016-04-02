@@ -18,6 +18,8 @@ router.get('/new', function(req, res, next){
 
     if (!res.locals.user){
         res.send('请先登录');
+    }else if (res.locals.user.name != 'wuyuedefeng'){
+        res.send('权限不足');
     }
 
     Subject.getAll(function(err, subjects){

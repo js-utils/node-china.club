@@ -56,14 +56,17 @@
 </div>
 
 <% include ../footer.ejs %>
+<link rel="stylesheet" href="/highlight/src/styles/qtcreator_dark.css">
+<script src="/javascripts/highlight.pack.js"></script>
 <script>
     $(function(){
         $('#nav-posts').addClass('active');
 
         $('#text-input').on('input', function(){
             document.getElementById('preview').innerHTML = marked($(this).val());
+            hljs.initHighlighting.called = false;
+            hljs.initHighlighting();
         });
-
 
         var categoryKey = "";
         $( "#choiceCategory" ).select2( {
