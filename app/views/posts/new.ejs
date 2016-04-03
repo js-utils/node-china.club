@@ -68,7 +68,6 @@
             hljs.initHighlighting();
         });
 
-        var categoryKey = "";
         $( "#choiceCategory" ).select2( {
             theme: "bootstrap",
             placeholder: "选择话题",
@@ -79,69 +78,53 @@
             },
             // 选取到某个值
             templateSelection: function(data){
-                $('#choiceTags').children().remove();
-                $('#choiceTags').val(null).trigger("change");
-                if (data.id && categoryKey != data.id){
-                    categoryKey = data.id;
-                    $.ajax({
-                        type: "GET",
-                        url: "/posts/api/category/tags",
-                        data: {category_key: data.id},
-                        success: function(tags){
-                            var str = '<option></option>'
-                            tags.forEach(function(tag){
-                                str += "<option value='" + tag +  "'>" + tag + "</option>"
-                            });
-                            $('#choiceTags').append(str);
-                        },
-                        error: function(){
-//                    alert('获取tags失败,请重新选择话题');
-                        }
-                    });
-                }
                 return data.text;
             }
         } );
-        var tagObj = {};
-        var willReset = false;
+
         $( "#choiceTags" ).select2( {
             theme: "bootstrap",
             placeholder: "输入tags",
             maximumSelectionLength: 5, //最多能够选择的个数
             tags: true, //是否可以自定义tag
-            multiple: true, // 支持多选
-//        data: [{id: 0, text: 'story'},{id: 1, text: 'bug'},{id: 2, text: 'task'}] //自定义data
-            sorter: function(data){
-                willReset = true;
-                return data;
-            },
-            templateSelection: function(data){
-                if (willReset){
-                    willReset = false;
-                    tagObj = {};
-                }
-                if (data["id"]){
-                    tagObj[data["id"]] = data["id"];
-                }
-                return data.text;
+            multiple: true // 支持多选
+        });
+
+        $("#choiceCategory").on('change', function(){
+            var categoryKey = $(this).val();
+            $('#choiceTags').children().remove();
+            $('#choiceTags').val(null).trigger("change");
+            if (categoryKey){
+                $.ajax({
+                    type: "GET",
+                    url: "/posts/api/category/tags",
+                    data: {category_key: categoryKey},
+                    success: function(tags){
+                        var str = '<option></option>'
+                        tags.forEach(function(tag){
+                            str += "<option value='" + tag +  "'>" + tag + "</option>"
+                        });
+                        $('#choiceTags').append(str);
+                    },
+                    error: function(){
+                        return console.log('获取tags失败');
+                    }
+                });
             }
         });
 
         $('#uploadPost').one('click', function uploadPost(){
-            $(this).css('backgroundColor', 'gray');
-            var category = categoryKey;
-            var title = $('#title-input').val();
-            var markdown = $('#text-input').val();
-            if (!category) return alert('请选择话题');
-            else if (!title) return alert('请输入标题');
-            else if (!markdown) return alert('话题内容不能为空');
             var data = {
-                category: category,
-                title: title,
-                tags: [],
-                markdown: markdown
+                category: $("#choiceCategory").val(),
+                title: $('#title-input').val(),
+                tags: $( "#choiceTags").val(),
+                markdown:  $('#text-input').val()
             }
-            for (var tag in tagObj) data.tags.push(tag);
+            if (!data.category) return alert('话题类型不能为空');
+            else if (!data.title) return alert('标题不能为空');
+            else if (!data.tags || !data.tags.length) return alert('关键字(tags)不能为空');
+            else if (!data.markdown) return alert('内容题不能为空');
+            $(this).css('backgroundColor', 'gray');
             $.ajax({
                 type: "POST",
                 url: "/posts/api/new",
