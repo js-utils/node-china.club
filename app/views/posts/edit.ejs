@@ -1,0 +1,156 @@
+<% include ../header.ejs %>
+<script src="/marked/lib/marked.js"></script>
+<link rel="stylesheet" href="/select2/dist/css/select2.min.css">
+<link rel="stylesheet" href="/select2-bootstrap-theme/dist/select2-bootstrap.min.css">
+<script src="/select2/dist/js/select2.min.js"></script>
+<div class="container">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            发布新话题
+        </div>
+        <div class="panel-body">
+            <!--话题标题group-->
+            <div class="form-group">
+                <div style="width: 150px; display: inline-block; float: left">
+                    <!--话题分类-->
+                    <input id="temCategory" type="text" value="<%= post.category %>" hidden>
+                    <select id="choiceCategory" class="select2-container select2-container--bootstrap select2-hidden-accessible" style="width: 150px;" tabindex="-1" aria-hidden="true">
+                        <option></option>
+                        <% subjects.forEach(function(subject){ %>
+                        <optgroup label="<%= subject["group"] %>">
+                            <% subject["categories"].forEach(function(category){ %>
+                            <option value="<%= category["key"] %>"><%= category["value"] %></option>
+                            <% }) %>
+                            <!--<option value="HI" disabled="disabled">Hawaii</option>&ndash;&gt;&ndash;&gt;-->
+                        </optgroup>
+                        <% }) %>
+                    </select>
+                </div>
+                <!--标题-->
+                <div style="margin-left: 112px; overflow: hidden">
+                    <input id="title-input" type="text" class="form-control" placeholder="标题" value="<%= post.title %>">
+                </div>
+            </div>
+            <!--tags-->
+            <div class="form-group">
+                <input type="text" value="<%= post.tags && post.tags.join(',') %>" id="tmpTags" hidden>
+                <select id="choiceTags" class="select2-container select2-container--bootstrap select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                    <option></option>
+                </select>
+            </div>
+            <!--内容group-->
+            <div class="form-group" style="overflow: hidden">
+                <div class="col-sm-5" style="padding-left: 0; overflow: scroll">
+                    <textarea id="text-input" rows="20" cols="40" class="form-control" placeholder="请输入markdown格式"><%= post.markdown %></textarea>
+                </div>
+                <div class="col-sm-7">
+                    <div id="preview"></div>
+                </div>
+            </div>
+            <!--操作按钮-->
+            <hr />
+            <div class="form-group">
+                <button id="uploadPost" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ../footer.ejs %>
+<link rel="stylesheet" href="/highlight/src/styles/qtcreator_dark.css">
+<script src="/javascripts/highlight.pack.js"></script>
+<script>
+    $(function(){
+        $('#nav-posts').addClass('active');
+
+        $('#text-input').on('input', function(){
+            document.getElementById('preview').innerHTML = marked($(this).val());
+            hljs.initHighlighting.called = false;
+            hljs.initHighlighting();
+        }).trigger('input');
+
+        $( "#choiceCategory").val($('#temCategory').val());
+        $( "#choiceCategory" ).select2( {
+            theme: "bootstrap",
+            placeholder: "选择话题",
+            maximumSelectionSize: 6,
+            // 控制显示
+            templateResult: function(data){
+                return data.text;
+            },
+            // 选取到某个值
+            templateSelection: function(data){
+                return data.text;
+            }
+        });
+
+        $("#choiceTags" ).select2( {
+            theme: "bootstrap",
+            placeholder: "输入tags",
+            maximumSelectionLength: 5, //最多能够选择的个数
+            tags: true, //是否可以自定义tag
+            multiple: true // 支持多选
+        });
+
+
+        var isInitialedTags = false;
+        $("#choiceCategory").on('change', function(){
+            $('#choiceTags').children().remove();
+            $('#choiceTags').val(null).trigger("change");
+            var categoryKey = $(this).val();
+            if (categoryKey){
+                $.ajax({
+                    type: "GET",
+                    url: "/posts/api/category/tags",
+                    data: {category_key: categoryKey},
+                    success: function(tags){
+                        var str = '<option></option>'
+                        tags.forEach(function(tag){
+                            str += "<option value='" + tag +  "'>" + tag + "</option>"
+                        });
+                        $('#choiceTags').append(str);
+
+                        if (!isInitialedTags){
+                            isInitialedTags = true;
+                            var tmpTags = $("#tmpTags").val();
+                            if (tmpTags){
+                                $("#choiceTags").val(tmpTags.split(',')).trigger('change');
+                            }
+                        }
+                    },
+                    error: function(){
+                        return console.log('获取tags失败');
+                    }
+                });
+            }
+        }).trigger('change');
+
+        $('#uploadPost').one('click', function uploadPost(){
+            var data = {
+                category: $("#choiceCategory").val(),
+                title: $('#title-input').val(),
+                tags: $("#choiceTags").val(),
+                markdown:  $('#text-input').val()
+            }
+            if (!data.category) return alert('话题类型不能为空');
+            else if (!data.title) return alert('标题不能为空');
+            else if (!data.tags || !data.tags.length) return alert('关键字(tags)不能为空');
+            else if (!data.markdown) return alert('内容题不能为空');
+            $(this).css('backgroundColor', 'gray');
+            $.ajax({
+                type: "POST",
+                url: "/posts/api/new",
+                data: data,
+                success: function(data){
+                    console.log(data);
+                    location.href = '/posts/show/' + data;
+                },
+                error: function(){
+                    $('#uploadPost').one('click', uploadPost);
+                }
+            });
+        })
+
+    });
+</script>

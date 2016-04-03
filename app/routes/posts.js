@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Subject = require('../models/subject');
 var Post = require('../models/post');
+var async = require('async');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     Post.findPosts(0, 0, 0, function(err, posts){
@@ -41,6 +42,32 @@ router.get('/show/:id', function(req, res, next){
            post: post
        })
     });
+});
+
+router.get('/edit/:id', function(req, res, next){
+    var _id = req.params.id;
+    async.parallel({
+        subjects: function (callback) {
+            Subject.getAll(function (err, subjects) {
+                callback(err, subjects);
+            });
+        },
+        post: function (callback) {
+            Post.findById(_id, function (err, post) {
+                callback(err, post);
+            });
+        }
+    }, function(err, obj){
+        if (err) return next(err);
+
+        res.render('posts/edit', {
+            title: '话题编辑',
+            post: obj.post,
+            subjects: obj.subjects
+        })
+
+    });
+
 });
 
 // api
