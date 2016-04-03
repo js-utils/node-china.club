@@ -53,7 +53,7 @@ SubjectSchema.statics.initData = function(){
         categories: [{
             key: 'iOS',
             value: 'iOS',
-            tags: ['oc', 'swift']
+            tags: ['oc', 'swift', 'xcode']
         }, {
             key: 'android',
             value: 'Android',
