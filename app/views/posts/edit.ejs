@@ -105,18 +105,21 @@
                     url: "/posts/api/category/tags",
                     data: {category_key: categoryKey},
                     success: function(tags){
+                        var tmpTags = $("#tmpTags").val();
+                        if (tmpTags){
+                            tmpTags = tmpTags.split(',');
+                            tags = arrayUniq(tags.concat(tmpTags));
+                        }
+
                         var str = '<option></option>'
                         tags.forEach(function(tag){
                             str += "<option value='" + tag +  "'>" + tag + "</option>"
                         });
                         $('#choiceTags').append(str);
 
-                        if (!isInitialedTags){
+                        if (!isInitialedTags && tmpTags){
                             isInitialedTags = true;
-                            var tmpTags = $("#tmpTags").val();
-                            if (tmpTags){
-                                $("#choiceTags").val(tmpTags.split(',')).trigger('change');
-                            }
+                            $("#choiceTags").val(tmpTags).trigger('change');
                         }
                     },
                     error: function(){
@@ -151,6 +154,17 @@
                 }
             });
         })
-
     });
+
+
+    function arrayUniq(arr){
+        var obj = {};
+        arr.forEach(function(e){
+            obj[e] = 1;
+        });
+        var newArr = [];
+        for (var key in obj) newArr.push(key);
+        return newArr;
+    }
+
 </script>
