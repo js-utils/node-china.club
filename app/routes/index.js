@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   Post.findPosts(0, 0, 0, function(err, posts){
     console.log(posts);
     res.render('index', {
-      title: 'Express',
+      title: 'nodeChina',
       posts: posts || []
     });
   });
