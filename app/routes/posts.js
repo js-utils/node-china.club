@@ -60,6 +60,12 @@ router.get('/edit/:id', function(req, res, next){
     }, function(err, obj){
         if (err) return next(err);
 
+        if (!obj.post || obj.post.author._id.toString() != res.locals.user.mongo_id){
+            res.send('权限不足');
+        }
+        console.log(res.locals.user);
+        console.log(obj.post.author.toString());
+
         res.render('posts/edit', {
             title: '话题编辑',
             post: obj.post,
